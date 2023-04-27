@@ -1,19 +1,44 @@
 package controleur;
 
+import outils.connexion.ClientSocket;
+import outils.connexion.AsyncResponse;
+import outils.connexion.Connection;
+import outils.connexion.ServeurSocket;
 import vue.EntreeJeu;
-
+import vue.Arene;
+import vue.ChoixJoueur;
 /**
- * Contrôleur et point d'entrée de l'applicaton 
+ * Contrï¿½leur et point d'entrï¿½e de l'applicaton 
  * @author emds
  *
  */
-public class Controle {
+public class Controle implements AsyncResponse {
 
-	private EntreeJeu frmEntreeJeu ;
+	
+	/**
+	 * Nï¿½ du port d'ï¿½coute du serveur
+	 */
+	private static final int PORT = 6666;
+	/**
+	 * frame EntreeJeu
+	 */
+	private EntreeJeu frmEntreeJeu;
+	/**
+	 * frame Arene
+	 */
+	private Arene frmArene;
+	/**
+	 * frame ChoixJoueur
+	 */
+	private ChoixJoueur frmChoixJoueur;
+	/**
+	 * type du jeu : client ou serveur
+	 */
+	private String typeJeu;
 
 	/**
-	 * Méthode de démarrage
-	 * @param args non utilisé
+	 * Mï¿½thode de dï¿½marrage
+	 * @param args non utilisï¿½
 	 */
 	public static void main(String[] args) {
 		new Controle();
@@ -23,8 +48,45 @@ public class Controle {
 	 * Constructeur
 	 */
 	private Controle() {
-		this.frmEntreeJeu = new EntreeJeu() ;
+		this.frmEntreeJeu = new EntreeJeu(this) ;
 		this.frmEntreeJeu.setVisible(true);
 	}
+	
+	/**
+	 * Demande provenant de la vue EntreeJeu
+	 * @param info information ï¿½ traiter
+	 */
+	public void evenementEntreeJeu(String info) {
+		if(info.equals("serveur")){
+			this.typeJeu = "serveur";
+			new ServeurSocket(this, PORT);
+			this.frmEntreeJeu.dispose();
+			this.frmArene = new Arene();
+			this.frmArene.setVisible(true);			
+		}else {
+			this.typeJeu = "client";
+			new ClientSocket(this, info, PORT);
+		}
+		
+	}
 
+	@Override
+	public void reception(Connection connection, String ordre, Object info) {		
+		switch(ordre) {
+		case "connexion" :
+			if(this.typeJeu.equals("client")) {
+				this.frmEntreeJeu.dispose();
+				this.frmArene = new Arene();
+				this.frmChoixJoueur = new ChoixJoueur();
+				this.frmChoixJoueur.setVisible(true);				
+			}
+			break;
+		case "rÃ©ception" :
+			break;
+		case "dÃ©connexion" :	
+			break;
+		}
+		
+	}
+	
 }
