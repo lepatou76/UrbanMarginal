@@ -10,16 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.Point;
 
 /**
- * frame de l'arène du jeu
+ * frame de l'arï¿½ne du jeu
  * @author emds
  *
  */
 public class Arene extends JFrame {
 
 	/**
-	 * Panel général
+	 * Panel gï¿½nï¿½ral
 	 */
 	private JPanel contentPane;
 	/**
@@ -35,6 +36,7 @@ public class Arene extends JFrame {
 	 * Create the frame.
 	 */
 	public Arene() {
+		setLocation(new Point(500, 150));
 		// Dimension de la frame en fonction de son contenu
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 	    this.pack();
