@@ -1,5 +1,7 @@
 package controleur;
 
+
+import javax.swing.JPanel;
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
@@ -12,7 +14,7 @@ import vue.ChoixJoueur;
 import vue.EntreeJeu;
 
 /**
- * Contrôleur et point d'entrée de l'applicaton 
+ * Controleur et point d'entree de l'applicaton 
  * @author emds
  *
  */
@@ -36,8 +38,8 @@ public class Controle implements AsyncResponse, Global {
 	private Jeu leJeu;
 
 	/**
-	 * Méthode de démarrage
-	 * @param args non utilisé
+	 * Methode de demarrage
+	 * @param args non utilise
 	 */
 	public static void main(String[] args) {
 		new Controle();
@@ -53,7 +55,7 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de la vue EntreeJeu
-	 * @param info information à traiter
+	 * @param info information a traiter
 	 */
 	public void evenementEntreeJeu(String info) {
 		if(info.equals("serveur")) {
@@ -61,6 +63,7 @@ public class Controle implements AsyncResponse, Global {
 			this.leJeu = new JeuServeur(this);
 			this.frmEntreeJeu.dispose();
 			this.frmArene = new Arene();
+			((JeuServeur)this.leJeu).constructionMurs();
 			this.frmArene.setVisible(true);
 		} else {
 			new ClientSocket(this, info, PORT);
@@ -70,18 +73,36 @@ public class Controle implements AsyncResponse, Global {
 	/**
 	 * Informations provenant de la vue ChoixJoueur
 	 * @param pseudo le pseudo du joueur
-	 * @param numPerso le numéro du personnage choisi par le joueur
+	 * @param numPerso le numero du personnage choisi par le joueur
 	 */
 	public void evenementChoixJoueur(String pseudo, int numPerso) {
 		this.frmChoixJoueur.dispose();
 		this.frmArene.setVisible(true);
 		((JeuClient)this.leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+numPerso);
 	}
+	
+	public void evenementJeuServeur(String ordre, Object info) {
+		switch(ordre) {
+		case AJOUTMUR :
+			frmArene.ajoutMurs(info);
+			break;
+		case AJOUTPANELMURS :
+			this.leJeu.envoi((Connection)info, this.frmArene.getJpnMurs());
+		}
+	}
+	
+	public void evenementJeuClient(String ordre, Object info) {
+		switch(ordre) {
+		case AJOUTPANELMURS :
+			this.frmArene.setJpnMurs((JPanel)info);
+			break;
+		}
+	}
 
 	/**
 	 * Envoi d'informations vers l'ordinateur distant
 	 * @param connection objet de connexion pour l'envoi vers l'ordinateur distant
-	 * @param info information à envoyer
+	 * @param info information a envoyer
 	 */
 	public void envoi(Connection connection, Object info) {
 		connection.envoi(info);

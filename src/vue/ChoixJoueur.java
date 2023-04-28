@@ -26,7 +26,7 @@ import java.awt.Dimension;
 public class ChoixJoueur extends JFrame implements Global {
 
 	/**
-	 * Panel général
+	 * Panel general
 	 */
 	private JPanel contentPane;
 	/**
@@ -38,16 +38,16 @@ public class ChoixJoueur extends JFrame implements Global {
 	 */
 	private JLabel lblPersonnage;
 	/**
-	 * Instance du contrôleur pour communiquer avec lui
+	 * Instance du controleur pour communiquer avec lui
 	 */
 	private Controle controle;
 	/**
-	 * Numéro du personnage sélectionné
+	 * Numï¿½ro du personnage sï¿½lectionnï¿½
 	 */
 	private int numPerso;
 
 	/**
-	 * Clic sur la flèche "précédent" pour afficher le personnage précédent
+	 * Clic sur la fleche "precedent" pour afficher le personnage precedent
 	 */
 	private void lblPrecedent_clic() {
 		numPerso = ((numPerso+1)%NBPERSOS)+1;
@@ -55,7 +55,7 @@ public class ChoixJoueur extends JFrame implements Global {
 	}
 	
 	/**
-	 * Clic sur la flèche "suivant" pour afficher le personnage suivant
+	 * Clic sur la fleche "suivant" pour afficher le personnage suivant
 	 */
 	private void lblSuivant_clic() {
 		numPerso = (numPerso%NBPERSOS)+1 ;
@@ -75,7 +75,7 @@ public class ChoixJoueur extends JFrame implements Global {
 	}
 	
 	/**
-	 * Affichage du personnage correspondant au numéro numPerso
+	 * Affichage du personnage correspondant au numero numPerso
 	 */
 	private void affichePerso() {
 		String chemin = CHEMINPERSONNAGES+PERSO+this.numPerso+MARCHE+1+"d"+1+EXTFICHIERPERSO;
@@ -91,7 +91,7 @@ public class ChoixJoueur extends JFrame implements Global {
 	}
 	
 	/**
-	 * Change le curseur de la souris en forme de doigt pointé
+	 * Change le curseur de la souris en forme de doigt pointï¿½
 	 */
 	private void sourisDoigt() {
 		contentPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -99,7 +99,7 @@ public class ChoixJoueur extends JFrame implements Global {
 
 	/**
 	 * Create the frame.
-	 * @param controle instance du contrôleur
+	 * @param controle instance du controleur
 	 */
 	public ChoixJoueur(Controle controle) {
 		// Dimension de la frame en fonction de son contenu
@@ -185,7 +185,7 @@ public class ChoixJoueur extends JFrame implements Global {
 		lblFond.setIcon(new ImageIcon(resource));		
 		contentPane.add(lblFond);
 		
-		// récupération de l'instance de Controle
+		// recuperation de l'instance de Controle
 		this.controle = controle;
 		
 		// affichage du premier personnage
