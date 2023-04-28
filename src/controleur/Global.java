@@ -11,7 +11,7 @@ package controleur;
 public interface Global {
 	
 	/**
-	 * N� du port d'�coute du serveur
+	 * No du port d'ecoute du serveur
 	 */
 	int PORT = 6666;
 	/**
@@ -55,7 +55,7 @@ public interface Global {
 	 */
 	String EXTFICHIERPERSO = ".gif";
 	/**
-	 * D�but du nom des images des personnages
+	 * Debut du nom des images des personnages
 	 */
 	String PERSO = "perso";
 	/**
@@ -67,15 +67,15 @@ public interface Global {
 	 */
 	String MUR = CHEMINMURS+"mur.gif";
 	/**
-	 * �tat marche du personnage
+	 * etat marche du personnage
 	 */
 	String MARCHE = "marche";
 	/**
-	 * �tat touch� du personnage
+	 * etat touch� du personnage
 	 */
 	String TOUCHE = "touche";
 	/**
-	 * �tat mort du personnage
+	 * etat mort du personnage
 	 */
 	String MORT = "mort";
 	/**
@@ -87,11 +87,11 @@ public interface Global {
 	 */
 	String CONNEXION = "connexion";
 	/**
-	 * Message "reception" envoye par la classe Connection
+	 * Message "r�ception" envoy� par la classe Connection
 	 */
 	String RECEPTION = "r�ception";
 	/**
-	 * Message "deconnexion" envoye par la classe Connection
+	 * Message "déconnexion" envoye par la classe Connection
 	 */
 	String DECONNEXION = "d�connexion";
 	/**
@@ -99,7 +99,7 @@ public interface Global {
 	 */
 	String PSEUDO = "pseudo";
 	/**
-	 * vie de depart pour tous les joueurs
+	 * vie de d�part pour tous les joueurs
 	 */
 	int MAXVIE = 10 ;
 	/**
@@ -111,15 +111,15 @@ public interface Global {
 	 */
 	int PERTE = 2 ; 
 	/**
-	 * nombre de murs dans l'arene
+	 * nombre de murs dans l'ar�ne
 	 */
 	int NBMURS = 20;
 	/**
-	 * hauteur de la zone de jeu de l'arene
+	 * hauteur de la zone de jeu de l'ar�ne
 	 */
 	int HAUTEURARENE = 600;
 	/**
-	 * largeur de la zone de heu de l'arene
+	 * largeur de la zone de jeu de l'ar�ne
 	 */
 	int LARGEURARENE = 800;
 	/**
@@ -131,15 +131,44 @@ public interface Global {
 	 */
 	int LARGEURMUR = 34;
 	/**
+	 * hauteur du personnage
+	 */
+	int HAUTEURPERSO = 44;
+	/**
+	 * largeur du personnage
+	 */
+	int LARGEURPERSO = 39;
+	/**
+	 * hauteur du message
+	 */
+	int HAUTEURMESSAGE = 8;
+	/**
+	 * orientation du personnage vers la gauche
+	 */
+	int GAUCHE = 0;
+	/**
+	 * orientation du personnage vers la droite
+	 */
+	int DROITE = 1;
+	/**
 	 * Message "serveur" pour la creation d'un serveur
 	 */
 	String SERVEUR = "serveur";
 	/**
-	 * ordre pour ajouter un mur dans l'arene du serveur
+	 * ordre pour ajouter un mur dans l'ar�ne du serveur
 	 */
 	String AJOUTMUR = "ajout mur";
 	/**
-	 * ordre pour ajouter le panel des murs dans l'arene du client
+	 * ordre pour ajouter le panel des murs dans l'ar�ne du client
 	 */
 	String AJOUTPANELMURS = "ajout panel murs";
+	/**
+	 * ordre pour ajouter un jLabel dans l'ar�ne du serveur (joueur, message, boule)
+	 */
+	String AJOUTJLABELJEU = "ajout jLabel jeu";
+	/**
+	 * ordre pour modifier le panel du jeu dans l'ae�ne du client
+	 */
+	String MODIFPANELJEU = "modif panel jeu";
+
 }
