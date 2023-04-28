@@ -63,7 +63,7 @@ public class Controle implements AsyncResponse, Global {
 			new ServeurSocket(this, PORT);
 			this.leJeu = new JeuServeur(this);
 			this.frmEntreeJeu.dispose();
-			this.frmArene = new Arene();
+			this.frmArene = new Arene(this, SERVEUR);
 			((JeuServeur)this.leJeu).constructionMurs();
 			this.frmArene.setVisible(true);
 		} else {
@@ -80,6 +80,14 @@ public class Controle implements AsyncResponse, Global {
 		this.frmChoixJoueur.dispose();
 		this.frmArene.setVisible(true);
 		((JeuClient)this.leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+numPerso);
+	}
+	
+	/**
+	 * Information provenant de la vue Arene
+	 * @param info information
+	 */
+	public void evenementArene(String info) {
+		((JeuClient)this.leJeu).envoi(TCHAT+STRINGSEPARE+info);
 	}
 	
 	/**
@@ -101,9 +109,18 @@ public class Controle implements AsyncResponse, Global {
 		case MODIFPANELJEU :
 			this.leJeu.envoi((Connection)info, this.frmArene.getJpnJeu());
 			break;
+		case AJOUTPHRASE :
+			this.frmArene.ajoutTchat((String)info);
+			((JeuServeur)this.leJeu).envoi(this.frmArene.getTxtChat());
+			break;
 		}
 	}
 	
+	/**
+	 * Demande provenant de JeuClient
+	 * @param ordre ordre a executer
+	 * @param info information a traiter
+	 */	
 	public void evenementJeuClient(String ordre, Object info) {
 		switch(ordre) {
 		case AJOUTPANELMURS :
@@ -111,6 +128,9 @@ public class Controle implements AsyncResponse, Global {
 			break;
 		case MODIFPANELJEU :
 			this.frmArene.setJpnJeu((JPanel)info);
+			break;
+		case MODIFTCHAT :
+			this.frmArene.setTxtChat((String)info);
 			break;
 		}
 	}
@@ -132,7 +152,7 @@ public class Controle implements AsyncResponse, Global {
 				this.leJeu = new JeuClient(this);
 				this.leJeu.connexion(connection);
 				this.frmEntreeJeu.dispose();
-				this.frmArene = new Arene();
+				this.frmArene = new Arene(this, CLIENT);
 				this.frmChoixJoueur = new ChoixJoueur(this);
 				this.frmChoixJoueur.setVisible(true);
 			} else {
