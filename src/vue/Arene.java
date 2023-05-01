@@ -11,10 +11,10 @@ import javax.swing.JTextField;
 
 import controleur.Controle;
 import controleur.Global;
-import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.awt.Point;
 
 /**
  * frame de l'ar�ne du jeu
@@ -24,7 +24,7 @@ import java.net.URL;
 public class Arene extends JFrame implements Global {
 
 	/**
-	 * Panel general
+	 * Panel g�n�ral
 	 */
 	private JPanel contentPane;
 	/**
@@ -44,7 +44,7 @@ public class Arene extends JFrame implements Global {
 	 */
 	private JTextArea txtChat ;
 	/**
-	 * Instance du controleur pour communiquer avec lui
+	 * Instance du contr�leur pour communiquer avec lui
 	 */
 	private Controle controle;
 	/**
@@ -58,7 +58,7 @@ public class Arene extends JFrame implements Global {
 	public JPanel getJpnMurs() {
 		return jpnMurs;
 	}
-	
+
 	/**
 	 * @param jpnMurs the jpnMurs to set
 	 */
@@ -66,7 +66,7 @@ public class Arene extends JFrame implements Global {
 		this.jpnMurs.add(jpnMurs);
 		this.jpnMurs.repaint();
 	}
-	
+
 	/**
 	 * @return the jpnJeu
 	 */
@@ -83,7 +83,7 @@ public class Arene extends JFrame implements Global {
 		this.jpnJeu.repaint();
 		this.contentPane.requestFocus();
 	}
-	
+
 	/**
 	 * @return the txtChat
 	 */
@@ -95,13 +95,13 @@ public class Arene extends JFrame implements Global {
 	 * @param txtChat the txtChat to set
 	 */
 	public void setTxtChat(String txtChat) {
-		this.txtChat.setText(txtChat);	
+		this.txtChat.setText(txtChat);
 		this.txtChat.setCaretPosition(this.txtChat.getDocument().getLength());
 	}
-	
+
 	/**
 	 * Ajoute un mur dans le panel des murs
-	 * @param unMur le mur a ajouter
+	 * @param unMur le mur � ajouter
 	 */
 	public void ajoutMurs(Object unMur) {
 		jpnMurs.add((JLabel)unMur);
@@ -109,8 +109,8 @@ public class Arene extends JFrame implements Global {
 	}
 	
 	/**
-	 * Ajout d'une phrase a inserer a la fin du tchat
-	 * @param phrase phase a inserer
+	 * Ajout d'une phrase � ins�rer � la fin du tchat
+	 * @param phrase phase � ins�rer
 	 */
 	public void ajoutTchat(String phrase) {
 		this.txtChat.setText(this.txtChat.getText()+phrase+"\r\n");
@@ -119,7 +119,7 @@ public class Arene extends JFrame implements Global {
 	
 	/**
 	 * Ajout d'un joueur, son message ou sa boule, dans le panel de jeu
-	 * @param unJLabel le label a ajouter
+	 * @param unJLabel le label � ajouter
 	 */
 	public void ajoutJLabelJeu(JLabel unJLabel) {
 		this.jpnJeu.add(unJLabel);
@@ -127,7 +127,7 @@ public class Arene extends JFrame implements Global {
 	}
 	
 	/**
-	 * Evenement touche pressee dans la zone de saisie
+	 * Ev�n�ment touche press�e dans la zone de saisie
 	 * @param e informations sur la touche
 	 */
 	public void txtSaisie_KeyPressed(KeyEvent e) {
@@ -143,8 +143,8 @@ public class Arene extends JFrame implements Global {
 	}
 	
 	/**
-	 * Evenement touche pressee sur le panel general
-	 * @param e infos sur la touche de deplacement utilisee
+	 * Ev�nement touche press�e sur le panel g�n�ral
+	 * @param e informations sur la touche
 	 */
 	public void contentPane_KeyPressed(KeyEvent e) {
 		int touche = -1;
@@ -153,23 +153,26 @@ public class Arene extends JFrame implements Global {
 		case KeyEvent.VK_RIGHT :
 		case KeyEvent.VK_UP :
 		case KeyEvent.VK_DOWN :
+		case KeyEvent.VK_SPACE :
 			touche = e.getKeyCode();
 			break;
 		}
 		// si touche correcte, alors envoi de sa valeur
 		if(touche != -1) {
-			this.controle.evenementArene(touche);		
+			this.controle.evenementArene(touche);
 		}
 	}
-
+	
 	/**
 	 * Create the frame.
+	 * @param controle instancedu conrt�leur
+	 * @param typeJeu "client" ou "serveur"
 	 */
 	public Arene(Controle controle, String typeJeu) {
-		this.client = typeJeu.equals(CLIENT);
 		setLocation(new Point(500, 150));
+		this.client = typeJeu.equals(CLIENT);
 		// Dimension de la frame en fonction de son contenu
-		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
+		this.getContentPane().setPreferredSize(new Dimension(LARGEURARENE, HAUTEURARENE + 25 + 140));
 	    this.pack();
 	    // interdiction de changer la taille
 		this.setResizable(false);
@@ -184,8 +187,8 @@ public class Arene extends JFrame implements Global {
 			}
 		});
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
+		contentPane.setLayout(null);	
+	
 		jpnJeu = new JPanel();
 		jpnJeu.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
 		jpnJeu.setOpaque(false);
@@ -197,7 +200,7 @@ public class Arene extends JFrame implements Global {
 		jpnMurs.setOpaque(false);
 		jpnMurs.setLayout(null);		
 		contentPane.add(jpnMurs);
-	
+		
 		if(this.client) {
 			txtSaisie = new JTextField();
 			txtSaisie.addKeyListener(new KeyAdapter() {
@@ -232,7 +235,7 @@ public class Arene extends JFrame implements Global {
 		lblFond.setBounds(0, 0, 800, 600);
 		contentPane.add(lblFond);
 		
-		// recuperation de l'instance de Controle
+		// r�cup�ration de l'instance de Controle
 		this.controle = controle;
 		
 	}

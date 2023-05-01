@@ -1,8 +1,8 @@
 package controleur;
 
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
@@ -15,7 +15,7 @@ import vue.ChoixJoueur;
 import vue.EntreeJeu;
 
 /**
- * Controleur et point d'entree de l'applicaton 
+ * Contrôleur et point d'entrée de l'applicaton 
  * @author emds
  *
  */
@@ -39,8 +39,8 @@ public class Controle implements AsyncResponse, Global {
 	private Jeu leJeu;
 
 	/**
-	 * Methode de demarrage
-	 * @param args non utilise
+	 * Méthode de démarrage
+	 * @param args non utilisé
 	 */
 	public static void main(String[] args) {
 		new Controle();
@@ -56,10 +56,10 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de la vue EntreeJeu
-	 * @param info information a traiter
+	 * @param info information à traiter
 	 */
 	public void evenementEntreeJeu(String info) {
-		if(info.equals("serveur")) {
+		if(info.equals(SERVEUR)) {
 			new ServeurSocket(this, PORT);
 			this.leJeu = new JeuServeur(this);
 			this.frmEntreeJeu.dispose();
@@ -74,7 +74,7 @@ public class Controle implements AsyncResponse, Global {
 	/**
 	 * Informations provenant de la vue ChoixJoueur
 	 * @param pseudo le pseudo du joueur
-	 * @param numPerso le numero du personnage choisi par le joueur
+	 * @param numPerso le numéro du personnage choisi par le joueur
 	 */
 	public void evenementChoixJoueur(String pseudo, int numPerso) {
 		this.frmChoixJoueur.dispose();
@@ -84,21 +84,20 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Information provenant de la vue Arene
-	 * @param info information
+	 * @param info information à transférer
 	 */
 	public void evenementArene(Object info) {
-		if(info instanceof String){
+		if(info instanceof String) {
 			((JeuClient)this.leJeu).envoi(TCHAT+STRINGSEPARE+info);
-		}
-		if(info instanceof Integer) {
+		}else if (info instanceof Integer) {
 			((JeuClient)this.leJeu).envoi(ACTION+STRINGSEPARE+info);
 		}
 	}
 	
 	/**
 	 * Demande provenant de JeuServeur
-	 * @param ordre ordre a executer
-	 * @param info information a traiter
+	 * @param ordre ordre à exécuter
+	 * @param info information à traiter
 	 */
 	public void evenementJeuServeur(String ordre, Object info) {
 		switch(ordre) {
@@ -123,9 +122,9 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de JeuClient
-	 * @param ordre ordre a executer
-	 * @param info information a traiter
-	 */	
+	 * @param ordre ordre à exécuter
+	 * @param info information à traiter
+	 */
 	public void evenementJeuClient(String ordre, Object info) {
 		switch(ordre) {
 		case AJOUTPANELMURS :
@@ -143,7 +142,7 @@ public class Controle implements AsyncResponse, Global {
 	/**
 	 * Envoi d'informations vers l'ordinateur distant
 	 * @param connection objet de connexion pour l'envoi vers l'ordinateur distant
-	 * @param info information a envoyer
+	 * @param info information à envoyer
 	 */
 	public void envoi(Connection connection, Object info) {
 		connection.envoi(info);
