@@ -15,7 +15,7 @@ import vue.ChoixJoueur;
 import vue.EntreeJeu;
 
 /**
- * Contrôleur et point d'entrée de l'applicaton 
+ * Contrï¿½leur et point d'entrï¿½e de l'applicaton 
  * @author emds
  *
  */
@@ -39,8 +39,8 @@ public class Controle implements AsyncResponse, Global {
 	private Jeu leJeu;
 
 	/**
-	 * Méthode de démarrage
-	 * @param args non utilisé
+	 * Mï¿½thode de dï¿½marrage
+	 * @param args non utilisï¿½
 	 */
 	public static void main(String[] args) {
 		new Controle();
@@ -56,7 +56,7 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de la vue EntreeJeu
-	 * @param info information à traiter
+	 * @param info information ï¿½ traiter
 	 */
 	public void evenementEntreeJeu(String info) {
 		if(info.equals(SERVEUR)) {
@@ -74,7 +74,7 @@ public class Controle implements AsyncResponse, Global {
 	/**
 	 * Informations provenant de la vue ChoixJoueur
 	 * @param pseudo le pseudo du joueur
-	 * @param numPerso le numéro du personnage choisi par le joueur
+	 * @param numPerso le numï¿½ro du personnage choisi par le joueur
 	 */
 	public void evenementChoixJoueur(String pseudo, int numPerso) {
 		this.frmChoixJoueur.dispose();
@@ -84,7 +84,7 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Information provenant de la vue Arene
-	 * @param info information à transférer
+	 * @param info information ï¿½ transfï¿½rer
 	 */
 	public void evenementArene(Object info) {
 		if(info instanceof String) {
@@ -96,8 +96,8 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de JeuServeur
-	 * @param ordre ordre à exécuter
-	 * @param info information à traiter
+	 * @param ordre ordre ï¿½ exï¿½cuter
+	 * @param info information ï¿½ traiter
 	 */
 	public void evenementJeuServeur(String ordre, Object info) {
 		switch(ordre) {
@@ -122,8 +122,8 @@ public class Controle implements AsyncResponse, Global {
 	
 	/**
 	 * Demande provenant de JeuClient
-	 * @param ordre ordre à exécuter
-	 * @param info information à traiter
+	 * @param ordre ordre ï¿½ exï¿½cuter
+	 * @param info information ï¿½ traiter
 	 */
 	public void evenementJeuClient(String ordre, Object info) {
 		switch(ordre) {
@@ -136,13 +136,16 @@ public class Controle implements AsyncResponse, Global {
 		case MODIFTCHAT :
 			this.frmArene.setTxtChat((String)info);
 			break;
+		case JOUESON :
+			this.frmArene.joueSon((Integer)info);
+			break;	
 		}
 	}
 
 	/**
 	 * Envoi d'informations vers l'ordinateur distant
 	 * @param connection objet de connexion pour l'envoi vers l'ordinateur distant
-	 * @param info information à envoyer
+	 * @param info information ï¿½ envoyer
 	 */
 	public void envoi(Connection connection, Object info) {
 		connection.envoi(info);

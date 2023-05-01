@@ -29,7 +29,7 @@ public class Boule extends Objet implements Global, Runnable {
 	private Joueur attaquant ;
 	
 	/**
-	 * Constructeur crée le label de la boule
+	 * Constructeur crï¿½e le label de la boule
 	 * @param jeuServeur pour communiquer avec JeuServeur
 	 */
 	public Boule(JeuServeur jeuServeur) {
@@ -56,19 +56,21 @@ public class Boule extends Objet implements Global, Runnable {
 			posX = attaquant.getPosX() + LARGEURPERSO + 1 ;
 		}
 		posY = attaquant.getPosY() + HAUTEURPERSO/2 ;
-		// démarrer le thread pour gérer le tir de la boule
+		// dï¿½marrer le thread pour gï¿½rer le tir de la boule
 		new Thread(this).start();
 	}
 
 	@Override
 	public void run() {
-		// afficher l'attaquant à l'étape repos de la marche
+		// envoi du son FIGHT
+		this.jeuServeur.envoi(FIGHT);
+		// afficher l'attaquant ï¿½ l'ï¿½tape repos de la marche
 		this.attaquant.affiche(MARCHE, 1);
 		// rendre la boule visible
 		super.jLabel.setVisible(true);
-		// préparer la victime (dans le cas où un joueur est touché)
+		// prï¿½parer la victime (dans le cas oï¿½ un joueur est touchï¿½)
 		Joueur victime = null;
-		// pas positif ou négatif (suivant l'orientation du joueur) pour faire avancer la boule
+		// pas positif ou nï¿½gatif (suivant l'orientation du joueur) pour faire avancer la boule
 		int lePas;
 		if (attaquant.getOrientation() == GAUCHE) {
 			lePas = - PAS;
@@ -80,24 +82,29 @@ public class Boule extends Objet implements Global, Runnable {
 			// la boule avance
 			posX += lePas;
 			jLabel.setBounds(posX, posY, LARGEURBOULE, HAUTEURBOULE);
-			// envoi de la nouvelle zone de jeu à tous (pour que tous voient la boule avancer)
+			// envoi de la nouvelle zone de jeu ï¿½ tous (pour que tous voient la boule avancer)
 			this.jeuServeur.envoiJeuATous();
-			// récupère la collection actuelle de joueurs
+			// rï¿½cupï¿½re la collection actuelle de joueurs
 			Collection lesJoueurs = this.jeuServeur.getLesJoueurs();
-			// récupération de l'éventuelle victime
+			// rï¿½cupï¿½ration de l'ï¿½ventuelle victime
 			victime = (Joueur)super.toucheCollectionObjets(lesJoueurs);
 		}while(posX>=0 && posX<=LARGEURARENE && this.toucheCollectionObjets(lesMurs)==null && victime==null);
-		// vérifier s'il y a une victime et qu'elle n'est pas déjà morte
+		// vï¿½rifier s'il y a une victime et qu'elle n'est pas dï¿½jï¿½ morte
 		if(victime != null && !victime.estMort()) {
+			// envoi du son HURT
+			this.jeuServeur.envoi(HURT);
+			// gestion du gain et de la perte de vie
 			victime.perteVie();
 			attaquant.gainVie();
-			// joue l'animation de la victime blessée
+			// joue l'animation de la victime blessï¿½e
 			for(int k=1 ; k<=NBETAPESTOUCHE ; k++) {
 				victime.affiche(TOUCHE, k);
 				pause(80, 0);
 			}
-			// contrôle si la victime est morte
+			// contrï¿½le si la victime est morte
 			if(victime.estMort()) {
+				// envoi du son DEATH
+				this.jeuServeur.envoi(DEATH);
 				// joue l'animation de la mort
 				for(int k=1 ; k<=NBETAPESMORT ; k++) {
 					victime.affiche(MORT, k);
@@ -108,14 +115,14 @@ public class Boule extends Objet implements Global, Runnable {
 				victime.affiche(MARCHE, 1);
 			}
 		}
-		// rendre à nouveau la boule invisible
+		// rendre ï¿½ nouveau la boule invisible
 		this.jLabel.setVisible(false);
-		// envoyer le nouveau jeu à tous
+		// envoyer le nouveau jeu ï¿½ tous
 		this.jeuServeur.envoiJeuATous();
 	}
 
 	/**
-	 * fais une pause (bloque le processus) d'une durée précise
+	 * fais une pause (bloque le processus) d'une durï¿½e prï¿½cise
 	 * @param millis millisecondes
 	 * @param nanos nanosecondes
 	 */
