@@ -1,6 +1,7 @@
 package modele;
 
 import controleur.Global;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.swing.JLabel;
@@ -9,6 +10,7 @@ import java.awt.Font;
 import java.awt.Color;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import java.awt.event.KeyEvent;
 
 /**
  * Gestion des joueurs
@@ -30,8 +32,7 @@ public class Joueur extends Objet implements Global {
 	private JLabel message;
 	/**
 	 * instance de JeuServeur pour communiquer avec lui
-	 */
-	
+	 */	
 	private JeuServeur jeuServeur ;
 	/**
 	 * numero d'�tape dans l'animation (de la marche, touch� ou mort)
@@ -68,9 +69,9 @@ public class Joueur extends Objet implements Global {
 	}
 
 	/**
-	 * Initialisation d'un joueur (pseudo et num�ro, calcul de la 1�re position, affichage, cr�ation de la boule)
+	 * Initialisation d'un joueur (pseudo et numero, calcul de la 1ere position, affichage, creation de la boule)
 	 * @param pseudo pseudo du joueur
-	 * @param numPerso num�ro du personnage
+	 * @param numPerso numero du personnage
 	 * @param lesJoueurs collection contenant tous les joueurs
 	 * @param lesMurs collection contenant les murs
 	 */
@@ -94,7 +95,7 @@ public class Joueur extends Objet implements Global {
 	}
 
 	/**
-	 * Calcul de la premi�re position al�atoire du joueur (sans chevaucher un autre joueur ou un mur)
+	 * Calcul de la premiere position aleatoire du joueur (sans chevaucher un autre joueur ou un mur)
 	 * @param lesJoueurs collection contenant tous les joueurs
 	 * @param lesMurs collection contenant les murs
 	 */
@@ -127,13 +128,58 @@ public class Joueur extends Objet implements Global {
 	/**
 	 * Gere une action recue et qu'il faut afficher (deplacement, tir de boule...)
 	 */
-	public void action() {
+	public void action(int action, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		switch(action) {
+		case KeyEvent.VK_LEFT :
+			orientation = GAUCHE; 
+			posX = deplace(posX, action, -PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_RIGHT :
+			orientation = DROITE; 
+			posX = deplace(posX, action, PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_UP :
+			posY = deplace(posY, action, -PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs) ;
+			break;
+		case KeyEvent.VK_DOWN :
+			posY = deplace(posY,  action, PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs) ;
+			break;	
+		}
+		this.affiche(MARCHE, this.etape);
 	}
 
 	/**
-	 * Gere le deplacement du personnage
+	 * Gere le deplacement du personnage 
+	 * @param position position de depart
+	 * @param action gauche, droite, haut ou bas
+	 * @param lepas valeur de deplacement (positif ou negatif)
+	 * @param max valeur a ne pas d�passer
+	 * @param lesJoueurs collection de joueurs pour �viter les collisions
+	 * @param lesMurs collection de murs pour �viter les collisions
+	 * @return nouvelle position
 	 */
-	private void deplace() { 
+	private int deplace(int position, // position de depart
+			int action, // gauche, droite, haut, bas
+			int lepas, // valeur du deplacement (positif ou negatif)
+			int max, // valeur a ne pas d�passer
+			Collection<Joueur> lesJoueurs, // les autres joueurs (pour �viter les collisions)
+			ArrayList<Mur> lesMurs) { // les murs (pour �viter les collisions)
+		int ancpos = position ;
+		position += lepas ;
+		position = Math.max(position, 0) ;
+		position = Math.min(position,  max) ;
+		if (action==KeyEvent.VK_LEFT || action==KeyEvent.VK_RIGHT) {
+			posX = position ;
+		}else{
+			posY = position ;
+		}
+		// controle s'il y a collision, dans ce cas, le personnage reste sur place
+		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs)) {
+			position = ancpos ;
+		}
+		// passe � l'�tape suivante de l'animation de la marche
+		etape = (etape % NBETAPESMARCHE) + 1 ;
+		return position ;  
 	}
 
 	/**

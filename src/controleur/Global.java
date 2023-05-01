@@ -151,6 +151,14 @@ public interface Global {
 	 */
 	int DROITE = 1;
 	/**
+	 * taille du pas quand le personnage avance (nombre de pixels)
+	 */
+	int PAS = 10;
+	/**
+	 * nombre d'etapes (d'images) pour donner l'impresson de marche
+	 */
+	int NBETAPESMARCHE = 4;	
+	/**
 	 * Message "serveur" pour la creation d'un serveur
 	 */
 	String SERVEUR = "serveur";
@@ -186,5 +194,9 @@ public interface Global {
 	 * ordre pour modifier le contenu du tchat dans l'ar�ne du client
 	 */
 	String MODIFTCHAT = "modif tchat";
+	/**
+	 * ordre pour ex�cuter une action (d�placement, tire de boule)
+	 */
+	String ACTION = "action";
 
 }
