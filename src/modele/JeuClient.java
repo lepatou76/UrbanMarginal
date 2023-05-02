@@ -50,12 +50,13 @@ public class JeuClient extends Jeu implements Global {
 	}
 	
 	@Override
-	public void deconnexion() {
+	public void deconnexion(Connection connection) {
+		System.exit(0);
 	}
 
 	/**
 	 * Envoi d'une information vers le serveur
-	 * fais appel une fois � l'envoi dans la classe Jeu
+	 * fais appel une fois a l'envoi dans la classe Jeu
 	 * @param info information � envoyer au serveur
 	 */
 	public void envoi(String info) {

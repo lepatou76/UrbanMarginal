@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.swing.JLabel;
 
 /**
- * Informations communes à tous les objets (joueurs, murs, boules)
- * permet de mémoriser la position de l'objet et de gérer les  collisions
+ * Informations communes ï¿½ tous les objets (joueurs, murs, boules)
+ * permet de mï¿½moriser la position de l'objet et de gï¿½rer les  collisions
  *
  */
 public abstract class Objet {
@@ -37,6 +37,20 @@ public abstract class Objet {
 	public Integer getPosY() {
 		return posY;
 	}
+	
+	/**
+	 * @param posX the posX to set
+	 */
+	public void setPosX(Integer posX) {
+		this.posX = posX;
+	}
+
+	/**
+	 * @param posY the posY to set
+	 */
+	public void setPosY(Integer posY) {
+		this.posY = posY;
+	}
 
 	/**
 	 * @return the jLabel
@@ -46,8 +60,8 @@ public abstract class Objet {
 	}
 
 	/**
-	 * contrôle si l'objet actuel touche l'objet passé en paramètre
-	 * @param objet contient l'objet à contrôler
+	 * contrï¿½le si l'objet actuel touche l'objet passï¿½ en paramï¿½tre
+	 * @param objet contient l'objet ï¿½ contrï¿½ler
 	 * @return true si les 2 objets se touchent
 	 */
 	public Boolean toucheObjet (Objet objet) {
@@ -62,9 +76,9 @@ public abstract class Objet {
 	}
 	
 	/**
-	 * Vérifie si l'objet actuel touche un des objets de la collection
+	 * Vï¿½rifie si l'objet actuel touche un des objets de la collection
 	 * @param lesObjets collection d'objets (murs, joueurs ou boules)
-	 * @return l'objet touché ou null
+	 * @return l'objet touchï¿½ ou null
 	 */
 	public Objet toucheCollectionObjets (Collection<Objet> lesObjets) {
 		for (Objet unObjet : lesObjets) {

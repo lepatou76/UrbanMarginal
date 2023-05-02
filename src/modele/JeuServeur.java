@@ -11,7 +11,7 @@ import controleur.Global;
 import outils.connexion.Connection;
 
 /**
- * Gestion du jeu côté serveur
+ * Gestion du jeu cï¿½tï¿½ serveur
  *
  */
 public class JeuServeur extends Jeu implements Global {
@@ -21,13 +21,13 @@ public class JeuServeur extends Jeu implements Global {
 	 */
 	private ArrayList<Mur> lesMurs = new ArrayList<Mur>() ;
 	/**
-	 * Dictionnaire de joueurs indexé sur leur objet de connexion
+	 * Dictionnaire de joueurs indexï¿½ sur leur objet de connexion
 	 */
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<Connection, Joueur>() ;
 	
 	/**
 	 * Constructeur
-	 * @param controle instance du contrôleur pour les échanges
+	 * @param controle instance du contrï¿½leur pour les ï¿½changes
 	 */
 	public JeuServeur(Controle controle) {
 		super.controle = controle;
@@ -51,7 +51,7 @@ public class JeuServeur extends Jeu implements Global {
 		String ordre = infos[0];
 		switch(ordre) {
 		case PSEUDO :
-			// arrivée des informations d'un nouveau joueur
+			// arrivï¿½e des informations d'un nouveau joueur
 			controle.evenementJeuServeur(AJOUTPANELMURS, connection);
 			String pseudo = infos[1];
 			int numPerso = Integer.parseInt(infos[2]);
@@ -72,7 +72,9 @@ public class JeuServeur extends Jeu implements Global {
 	}
 	
 	@Override
-	public void deconnexion() {
+	public void deconnexion(Connection connection) {
+		this.lesJoueurs.get(connection).departJoueur();
+		this.lesJoueurs.remove(connection);
 	}
 
 	public void ajoutJLabelJeuArene(JLabel jLabel) {
@@ -81,8 +83,8 @@ public class JeuServeur extends Jeu implements Global {
 	
 	/**
 	 * Envoi d'une information vers tous les clients
-	 * fais appel plusieurs fois à l'envoi de la classe Jeu
-	 * @param info information à envoyer
+	 * fais appel plusieurs fois ï¿½ l'envoi de la classe Jeu
+	 * @param info information ï¿½ envoyer
 	 */
 	public void envoi(Object info) {
 		for(Connection connection : this.lesJoueurs.keySet()) {
@@ -91,7 +93,7 @@ public class JeuServeur extends Jeu implements Global {
 	}
 
 	/**
-	 * Envoi du panel de jeu à tous les joueurs
+	 * Envoi du panel de jeu ï¿½ tous les joueurs
 	 */
 	public void envoiJeuATous() {
 		for(Connection connection : this.lesJoueurs.keySet()) {
@@ -100,7 +102,7 @@ public class JeuServeur extends Jeu implements Global {
 	}
 	
 	/**
-	 * Génération des murs
+	 * Gï¿½nï¿½ration des murs
 	 */
 	public void constructionMurs() {
 		for(int k=0 ; k < NBMURS ; k++) {
